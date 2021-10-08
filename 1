@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="calculator">
+        <div class="display">
+          <input type="text" placeholder="0" id="input" disabled />
+        </div>
+        <div class="buttons">
+          <!-- AC=Full Erase -->
+          <input type="button" value="AC" id="clear" />
+          <!-- Erase Single Value -->
+          <input type="button" value="DEL" id="erase" />
+          <input type="button" value="/" class="input-button" />
+          <input type="button" value="*" class="input-button" />
+
+          <input type="button" value="7" class="input-button" />
+          <input type="button" value="8" class="input-button" />
+          <input type="button" value="9" class="input-button" />
+          <input type="button" value="-" class="input-button" />
+
+          <input type="button" value="6" class="input-button" />
+          <input type="button" value="5" class="input-button" />
+          <input type="button" value="4" class="input-button" />
+          <input type="button" value="+" class="input-button" />
+
+          <input type="button" value="1" class="input-button" />
+          <input type="button" value="2" class="input-button" />
+          <input type="button" value="3" class="input-button" />
+
+          <input type="button" value="=" id="equal" />
+          <input type="button" value="0" class="input-button" />
+          <input type="button" value="." class="input-button" />
+        </div>
+      </div>
+      <a href="https://youtu.be/hma0N8Vu_Uw" target="_blank"
+        >My Youtube Channel</a
+      >
+    </div>
+    <script type="text/javascript">
+      let equal_pressed = 0;
+      //Refer All Buttons(excluding => AC and DEL)
+      let button_input = document.querySelectorAll(".input-button");
+      //Refer input,equal,clear and erase
+      let input = document.getElementById("input");
+      let equal = document.getElementById("equal");
+      let clear = document.getElementById("clear");
+      let erase = document.getElementById("erase");
+      window.onload = () => {
+        input.value = "";
+      };
+      //access each class using forEach
+      button_input.forEach((button_class) => {
+        button_class.addEventListener("click", () => {
+          if (equal_pressed == 1) {
+            input.value = "";
+            equal_pressed = 0;
+          }
+          //display value of each button
+          input.value += button_class.value;
+        });
+      });
+      //Solve the user's input when clicked on equal sign.
+      equal.addEventListener("click", () => {
+        equal_pressed = 1;
+        let inp_val = input.value;
+        try {
+          //evaluate user's input
+          let solution = eval(inp_val);
+          //True for natural numbers
+          //False for decimals
+          if (Number.isInteger(solution)) {
+            input.value = solution;
+          } else {
+            input.value = solution.toFixed(2);
+          }
+        } catch (err) {
+          //if user has entered something wrong
+          alert("There is an Input Errror");
+        }
+      });
+      //Clear Whole Input
+      clear.addEventListener("click", () => (input.value = ""));
+      //Erase Button
+      erase.addEventListener("click", () => {
+        input.value = input.value.substr(0, input.value.length - 1);
+      });
+    </script>
+  </body>
+</html>
+
+  * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Roboto Mono", monospace;
+      }
+      body {
+        height: 100vh;
+        background: linear-gradient(to bottom, #f9544c 50%, #090c31 50%);
+      }
+      .wrapper {
+        width: 320px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+      }
+      .calculator {
+        background-color: #15173c;
+        width: 100%;
+        padding: 30px 15px 30px 15px;
+        border-radius: 8px;
+        box-shadow: 0 20px 50px rgba(0, 5, 24, 0.4);
+      }
+      a {
+        display: block;
+        background-color: #f9544c;
+        color: #ffffff;
+        text-align: center;
+        text-decoration: none;
+        padding: 15px 0;
+        margin-top: 20px;
+        border-radius: 5px;
+      }
+      .display {
+        width: 100%;
+      }
+      .display input {
+        width: 100%;
+        padding: 15px 10px;
+        text-align: right;
+        border: none;
+        background-color: transparent;
+        color: #ffffff;
+        font-size: 35px;
+      }
+      .display input::placeholder {
+        color: #9490ac;
+      }
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px;
+        margin-top: 20px;
+      }
+      .buttons input[type="button"] {
+        font-size: 16px;
+        padding: 17px;
+        border-radius: 5px;
+        border: none;
+        background-color: transparent;
+        color: #ffffff;
+        cursor: pointer;
+      }
+      .buttons input[type="button"]:hover {
+        box-shadow: 0 8px 25px #000d2e;
+      }
+      input[type="button"]#equal {
+        grid-row: span 2;
+        background-color: #f9544c;
+        color: #ffffff;
+      }
+      input[type="button"][value="0"] {
+        grid-column: span 2;
+      }
